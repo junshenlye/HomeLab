@@ -1,0 +1,8 @@
+numpy
+pandas
+matplotlib
+tabulate
+requests
+scipy
+scikit-learn
+pyarrow

@@ -1,0 +1,5 @@
+ib-insync==0.9.86
+numpy
+pandas
+pyarrow
+requests
