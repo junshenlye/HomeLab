@@ -1,23 +1,21 @@
-FROM python:3.12-slim
+ARG PYTHON_VERSION=3.12
+FROM python:${PYTHON_VERSION}-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV UV_SYSTEM_PYTHON=1
 
-WORKDIR /app
+WORKDIR /workspace
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl ca-certificates build-essential \
+    && apt-get install -y --no-install-recommends \
+        bash \
+        ca-certificates \
+        curl \
+        git \
+        jq \
+        openssh-client \
+        tini \
     && rm -rf /var/lib/apt/lists/*
 
-COPY research/requirements.txt /app/research/requirements.txt
-COPY quant_research/requirements.txt /app/quant_research/requirements.txt
-
-RUN pip install --no-cache-dir -r /app/research/requirements.txt \
-    && pip install --no-cache-dir -r /app/quant_research/requirements.txt
-
-COPY quant_research /app/quant_research
-COPY config /app/config
-COPY research /app/research
-
-ENTRYPOINT ["python", "-m", "quant_research.cli"]
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["bash"]

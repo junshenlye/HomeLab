@@ -1,2 +1,0 @@
-"""Market data collection modules."""
-
